@@ -23,7 +23,7 @@
 pipeline {
     agent {
         node {
-            label 'openjdk'
+            label 'openjdk-24-jdk'
         }
     }
 

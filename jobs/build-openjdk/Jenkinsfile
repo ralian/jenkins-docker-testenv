@@ -1,20 +1,14 @@
 pipeline {
     agent {
         node {
-            label 'workers-openjdk'
+            label 'openjdk-24-jdk'
         }
     }
 
     stages {
-        stage('Build Jarfile') {
+        stage('Build Image') {
             steps {
                 sh 'jar -cfe0 hello.jar Hello Hello.java Goodbye.java'
-            }
-        }
-
-        stage('Run Jarfile') {
-            steps {
-                sh 'java -jar hello.jar'
             }
         }
     }
