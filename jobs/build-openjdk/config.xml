@@ -12,7 +12,40 @@
   <description>Build image for workers/openjdk</description>
   <displayName>Build Worker OpenJDK</displayName>
   <keepDependencies>false</keepDependencies>
-  <properties/>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>upstream</name>
+          <description>Upstream to use for the build</description>
+          <defaultValue>debian:latest</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>downstream</name>
+          <description>What to tag the result as</description>
+          <defaultValue>workers/openjdk:latest</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>cloud</name>
+          <description>Which cloud to run in</description>
+          <defaultValue>docker-host</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>nocache</name>
+          <description>Ignore the build cache?</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>pull</name>
+          <description>Pull latest from the remote</description>
+          <defaultValue>true</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@3964.v0767b_4b_a_0b_fa_">
     <scm class="hudson.plugins.git.GitSCM" plugin="git@5.5.1">
       <configVersion>2</configVersion>

@@ -10,6 +10,6 @@ To build and run,
 
 ```
 docker build -f jenkins-docker/Dockerfile --tag jenkins-docker .
-docker build -f workers/openjdk.dockerfile --tag workers/openjdk .
+docker build -f workers/openjdk/Dockerfile --tag workers/openjdk .
 docker run --rm -p 8080:8080 -it jenkins-docker
 ```
