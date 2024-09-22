@@ -8,14 +8,13 @@ pipeline {
     stages {
         stage('Clone Ladybird') {
             steps {
-                sh 'javac -d . jobs/openjdk-jar/Hello.java jobs/openjdk-jar/Goodbye.java'
-                sh 'jar -v0cfe hello.jar Hello Hello.class Goodbye.class'
+                sh 'git clone https://github.com/LadybirdBrowser/ladybird.git'
             }
         }
 
         stage('Run Buildscript') {
             steps {
-                sh 'java -jar hello.jar'
+                sh './ladybird/Meta/ladybird.sh run ladybird'
             }
         }
     }
