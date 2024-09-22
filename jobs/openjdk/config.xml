@@ -15,11 +15,8 @@
   <properties/>
   <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3964.v0767b_4b_a_0b_fa_">
     <script>
-// We really want to move this out of the config and into its own file. Options:
-// 1. use CpsScmFlowDefinition with git server in the container or on the host
-// 2. Use XML ENTITY SYSTEM DECLARATION - this seems to be broken with stapler
-// 3. Write a plugin to provide a custom org.jenkinsci.plugins.workflow.flow.FlowDefinition which reads from a file
-// 4. Generate this config.xml at build time
+// It would be nice to have this pipeline in a jenkinsfile, however that won't be possible without a custom plugin.
+// Why? If we use the SCM pipeline definition, jenkins will read it, but the node (openjdk:24-jdk) will fail as it doesn't have git.
 pipeline {
     agent {
         node {
