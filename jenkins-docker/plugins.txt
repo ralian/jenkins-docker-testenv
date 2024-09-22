@@ -1,3 +1,4 @@
 dark-theme: 479.v661b_1b_911c01
 docker-plugin: 1.6.2
+git: 5.5.1
 pipeline-model-definition: 2.2214.vb_b_34b_2ea_9b_83

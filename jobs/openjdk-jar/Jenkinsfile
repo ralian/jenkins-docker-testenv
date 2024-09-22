@@ -1,0 +1,21 @@
+pipeline {
+    agent {
+        node {
+            label 'openjdk'
+        }
+    }
+
+    stages {
+        stage('Build Jarfile') {
+            steps {
+                sh 'jar -cfe0 hello.jar Hello Hello.java Goodbye.java'
+            }
+        }
+
+        stage('Run Jarfile') {
+            steps {
+                sh 'java -jar hello.jar'
+            }
+        }
+    }
+}
