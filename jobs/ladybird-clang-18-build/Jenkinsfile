@@ -6,22 +6,16 @@ pipeline {
     }
 
     stages {
-        stage('Build Jarfile') {
+        stage('Clone Ladybird') {
             steps {
                 sh 'javac -d . jobs/openjdk-jar/Hello.java jobs/openjdk-jar/Goodbye.java'
                 sh 'jar -v0cfe hello.jar Hello Hello.class Goodbye.class'
             }
         }
 
-        stage('Run Jarfile') {
+        stage('Run Buildscript') {
             steps {
                 sh 'java -jar hello.jar'
-            }
-        }
-        
-        stage('Archive Jarfile') {
-            steps {
-                archiveArtifacts 'hello.jar'
             }
         }
     }

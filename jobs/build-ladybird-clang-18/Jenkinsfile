@@ -1,0 +1,29 @@
+// This is somewhat experimental, but we can build the workers/openjdk image from inside docker.
+pipeline {
+    agent {
+        node {
+            label 'workers-openjdk'
+        }
+    }
+
+    stages {
+        stage('Build Image') {
+            steps {
+                step([$class: 'DockerBuilderPublisher',
+                  buildArgs: [UPSTREAM: params.upstream],
+                  buildArgsString: "UPSTREAM=${params.upstream}",
+                  cleanImages: false,
+                  cleanupWithJenkinsJobDelete: false,
+                  cloud: params.cloud,
+                  dockerFileDirectory: './workers/ladybird-clang-18',
+                  fromRegistry: [url: 'https://index.docker.io/v1/'],
+                  noCache: params.nocache,
+                  pull: params.pull,
+                  pushCredentialsId: '',
+                  pushOnSuccess: false,
+                  tagsString: params.downstream
+                ])
+            }
+        }
+    }
+}

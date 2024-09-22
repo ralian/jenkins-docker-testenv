@@ -9,8 +9,8 @@
       <options/>
     </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
   </actions>
-  <description>Build image for workers/openjdk</description>
-  <displayName>Build Worker - OpenJDK</displayName>
+  <description>Build image for workers/ladybird-clang-18</description>
+  <displayName>Build Worker - Ladybird (clang-18)</displayName>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.model.ParametersDefinitionProperty>
@@ -24,7 +24,7 @@
         <hudson.model.StringParameterDefinition>
           <name>downstream</name>
           <description>What to tag the result as</description>
-          <defaultValue>workers/openjdk:latest</defaultValue>
+          <defaultValue>workers/ladybird-clang-18:latest</defaultValue>
           <trim>true</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
@@ -63,7 +63,7 @@
       <submoduleCfg class="empty-list"/>
       <extensions/>
     </scm>
-    <scriptPath>jobs/build-openjdk/Jenkinsfile</scriptPath>
+    <scriptPath>jobs/build-ladybird-clang-18/Jenkinsfile</scriptPath>
     <lightweight>true</lightweight>
   </definition>
   <triggers/>
