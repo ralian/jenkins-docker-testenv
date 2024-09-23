@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            label 'workers-ladybird-clang-18'
+            label 'workers-openjdk'
         }
     }
 

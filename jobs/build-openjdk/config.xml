@@ -54,25 +54,51 @@
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
-  <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@3964.v0767b_4b_a_0b_fa_">
-    <scm class="hudson.plugins.git.GitSCM" plugin="git@5.5.1">
-      <configVersion>2</configVersion>
-      <userRemoteConfigs>
-        <hudson.plugins.git.UserRemoteConfig>
-          <url>https://github.com/ralian/jenkins-docker-testenv</url>
-        </hudson.plugins.git.UserRemoteConfig>
-      </userRemoteConfigs>
-      <branches>
-        <hudson.plugins.git.BranchSpec>
-          <name>*/*</name>
-        </hudson.plugins.git.BranchSpec>
-      </branches>
-      <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
-      <submoduleCfg class="empty-list"/>
-      <extensions/>
-    </scm>
-    <scriptPath>jobs/build-openjdk/Jenkinsfile</scriptPath>
-    <lightweight>true</lightweight>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@3964.v0767b_4b_a_0b_fa_">
+    <script>
+// This is a bit of an experimental hack. We have to write out the dockerfile since there's no good way to transfer it from the jenkins container.
+pipeline {
+    agent {
+        node {
+            label 'openjdk-24-jdk'
+        }
+    }
+
+    stages {
+        stage('Write Dockerfile') {
+                steps {
+                writeFile(file: "Dockerfile", text: """
+                ARG UPSTREAM=debian
+                FROM $UPSTREAM
+
+                # Note we could save about 100mb by using the JRE instead. Need to play around with settings.
+                RUN apt update; apt install -y git openjdk-17-jdk;
+                """)
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                step([$class: 'DockerBuilderPublisher',
+                  buildArgs: [UPSTREAM: params.upstream],
+                  buildArgsString: "UPSTREAM=${params.upstream}",
+                  cleanImages: false,
+                  cleanupWithJenkinsJobDelete: false,
+                  cloud: params.cloud,
+                  dockerFileDirectory: '.',
+                  fromRegistry: [url: 'https://index.docker.io/v1/'],
+                  noCache: params.nocache,
+                  pull: params.pull,
+                  pushCredentialsId: '',
+                  pushOnSuccess: false,
+                  tagsString: params.downstream
+                ])
+            }
+        }
+    }
+}
+</script>
+    <sandbox>true</sandbox>
   </definition>
   <triggers/>
   <disabled>false</disabled>
