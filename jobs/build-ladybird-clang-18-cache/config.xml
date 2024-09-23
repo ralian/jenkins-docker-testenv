@@ -9,14 +9,14 @@
       <options/>
     </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
   </actions>
-  <description>Build and run the Ladybird browser</description>
-  <displayName>Ladybird Build (clang-18)</displayName>
+  <description>Build image for workers/ladybird-clang-18-cache</description>
+  <displayName>Build Worker - Ladybird (clang-18) Build Cache</displayName>
   <keepDependencies>false</keepDependencies>
   <properties>
     <jenkins.model.BuildDiscarderProperty>
       <strategy class="hudson.tasks.LogRotator">
         <daysToKeep>-1</daysToKeep>
-        <numToKeep>5</numToKeep>
+        <numToKeep>2</numToKeep>
         <artifactDaysToKeep>-1</artifactDaysToKeep>
         <artifactNumToKeep>-1</artifactNumToKeep>
       </strategy>
@@ -24,11 +24,33 @@
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
-          <name>branch</name>
-          <description>Branch to pull and build off the cache</description>
-          <defaultValue>master</defaultValue>
+          <name>upstream</name>
+          <description>Upstream to use for the build</description>
+          <defaultValue>workers/ladybird-clang-18:latest</defaultValue>
           <trim>true</trim>
         </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>downstream</name>
+          <description>What to tag the result as</description>
+          <defaultValue>workers/ladybird-clang-18-cache:latest</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>cloud</name>
+          <description>Which cloud to run in</description>
+          <defaultValue>docker-host</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>nocache</name>
+          <description>Ignore the build cache?</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>pull</name>
+          <description>Pull latest from the remote</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -49,7 +71,7 @@
       <submoduleCfg class="empty-list"/>
       <extensions/>
     </scm>
-    <scriptPath>jobs/ladybird-clang-18-build/Jenkinsfile</scriptPath>
+    <scriptPath>jobs/build-ladybird-clang-18-cache/Jenkinsfile</scriptPath>
     <lightweight>true</lightweight>
   </definition>
   <triggers/>

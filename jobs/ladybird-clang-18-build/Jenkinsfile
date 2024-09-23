@@ -1,20 +1,28 @@
 pipeline {
     agent {
         node {
-            label 'workers-ladybird-clang-18'
+            label 'workers-ladybird-clang-18-cache'
         }
     }
 
     stages {
-        stage('Clone Ladybird') {
+        stage('Pull Latest') {
             steps {
-                sh 'git clone https://github.com/LadybirdBrowser/ladybird.git'
+                //sh 'mv ~/ladybird ./ladybird'
+                sh "cd ~/ladybird; git fetch; git checkout ${params.branch}; git pull;"
+            }
+        }
+        
+        stage('Build Latest') {
+            steps {
+                sh "cd ~/ladybird; ./Meta/ladybird.sh build ladybird;"
             }
         }
 
-        stage('Run Buildscript') {
+        stage('Archive Build') {
             steps {
-                sh './ladybird/Meta/ladybird.sh run ladybird'
+                sh 'mv ~/ladybird/Build .; zip -r Build.zip Build'
+                archiveArtifacts 'Build.zip'
             }
         }
     }
