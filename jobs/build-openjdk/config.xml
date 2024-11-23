@@ -26,7 +26,7 @@
         <hudson.model.StringParameterDefinition>
           <name>upstream</name>
           <description>Upstream to use for the build</description>
-          <defaultValue>debian:latest</defaultValue>
+          <defaultValue>ubuntu:latest</defaultValue>
           <trim>true</trim>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
@@ -68,7 +68,7 @@ pipeline {
         stage('Write Dockerfile') {
                 steps {
                 writeFile(file: "Dockerfile", text: """
-                ARG UPSTREAM=debian
+                ARG UPSTREAM=ubuntu
                 FROM $UPSTREAM
 
                 # Note we could save about 100mb by using the JRE instead. Need to play around with settings.
